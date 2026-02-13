@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whoopsie! - Andy's Big Top</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="whoopsContainer" class="whoops-overlay active">
+        <div class="whoops-message">Whoopsie! Hehe!</div>
+        <div id="gorilla" class="gorilla">
+            <div class="gorilla-emoji">🦍</div>
+            <div class="gorilla-label">Click me and all will be forgiven.</div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('gorilla').addEventListener('click', function() {
+            // Play text-to-speech with high-pitched British accent
+            const utterance = new SpeechSynthesisUtterance("Thank you for the banana, friend.");
+            
+            // Set British accent (en-GB)
+            utterance.lang = 'en-GB';
+            utterance.rate = 0.6;  // Slower speech
+            utterance.pitch = 2;   // High-pitched
+            utterance.volume = 1;
+            
+            // Get available voices and find a British one
+            const voices = window.speechSynthesis.getVoices();
+            const britishVoice = voices.find(voice => voice.lang === 'en-GB') || voices.find(voice => voice.lang.startsWith('en'));
+            if (britishVoice) {
+                utterance.voice = britishVoice;
+            }
+            
+            // Speak and then redirect back
+            window.speechSynthesis.speak(utterance);
+            
+            // Redirect back after speech completes
+            utterance.onend = function() {
+                window.location.href = 'index.html';
+            };
+        });
+    </script>
+</body>
+</html>

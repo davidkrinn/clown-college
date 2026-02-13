@@ -38,46 +38,12 @@
         <button id="jokeButton">Click and I'll tell a joke!</button>
     </div>
 
-    <div id="whoopsOverlay" class="whoops-overlay">
-        <div class="whoops-message">Whoopsie! Hehe!</div>
-        <div id="gorilla" class="gorilla">
-            <div class="gorilla-emoji">🦍</div>
-            <div class="gorilla-label">Click me and all will be forgiven.</div>
-        </div>
-    </div>
-
     <div class="tip-jar" id="tipJar">
         <div class="jar-emoji">🫙</div>
         <div class="jar-label">TIP JAR</div>
     </div>
 
-    <div id="jarJarOverlay" class="jar-jar-overlay">
-        <div class="jar-jar-container">
-            <img id="jarJarImage" src="jar-head.jpg" alt="Jar Jar Binks" class="jar-jar-image">
-            <button id="storyButton" class="story-button">Want to hear a story?</button>
-            <form id="jarJarForm" class="jar-jar-form">
-                <input type="text" id="nameInput" placeholder="Enter your name" required>
-                <button type="submit">Submit</button>
-            </form>
-            <form id="creditCardForm" class="credit-card-form">
-                <input type="text" id="creditCardInput" placeholder="Enter credit card number" required>
-                <button type="submit">Submit</button>
-            </form>
-        </div>
-    </div>
-
     <script>
-        // Initialize form visibility
-        window.addEventListener('DOMContentLoaded', function() {
-            const storyBtn = document.getElementById('storyButton');
-            const jarJarFrm = document.getElementById('jarJarForm');
-            const ccFrm = document.getElementById('creditCardForm');
-            
-            if (storyBtn) storyBtn.style.display = 'none';
-            if (jarJarFrm) jarJarFrm.style.display = 'none';
-            if (ccFrm) ccFrm.style.display = 'none';
-        });
-        
         function playBoing() {
             const audioContext = new (window.AudioContext || window.webkitAudioContext)();
             const now = audioContext.currentTime;
@@ -105,124 +71,11 @@
         
         document.getElementById('jokeButton').addEventListener('click', function() {
             playBoing();
-            const overlay = document.getElementById('whoopsOverlay');
-            overlay.classList.add('active');
+            window.location.href = 'whoops.html';
         });
-        
-        document.getElementById('gorilla').addEventListener('click', function() {
-            // Play text-to-speech with high-pitched British accent
-            const utterance = new SpeechSynthesisUtterance("Thank you for the banana, friend.");
-            
-            // Set British accent (en-GB)
-            utterance.lang = 'en-GB';
-            utterance.rate = 0.6;  // Slower speech
-            utterance.pitch = 2;   // High-pitched
-            utterance.volume = 1;
-            
-            // Get available voices and find a British one
-            const voices = window.speechSynthesis.getVoices();
-            const britishVoice = voices.find(voice => voice.lang === 'en-GB') || voices.find(voice => voice.lang.startsWith('en'));
-            if (britishVoice) {
-                utterance.voice = britishVoice;
-            }
-            
-            // Speak and then hide overlay
-            window.speechSynthesis.speak(utterance);
-            
-            // Hide the overlay after speech completes
-            utterance.onend = function() {
-                const overlay = document.getElementById('whoopsOverlay');
-                overlay.classList.remove('active');
-            };
-        });
-        
-        // Jar Jar Binks interaction
-        let jarJarClickCount = 0;
-        const jarJarLines = [
-            "Meesa!",
-            "Jar Jar!",
-            "Meesa Jar Jar! Who are you?"
-        ];
         
         document.getElementById('tipJar').addEventListener('click', function() {
-            const overlay = document.getElementById('jarJarOverlay');
-            overlay.classList.add('active');
-            jarJarClickCount = 0;
-            document.getElementById('jarJarForm').style.display = 'none';
-            document.getElementById('creditCardForm').style.display = 'none';
-            document.getElementById('storyButton').style.display = 'block';
-        });
-        
-        document.getElementById('jarJarImage').addEventListener('click', function() {
-            if (jarJarClickCount < jarJarLines.length) {
-                const utterance = new SpeechSynthesisUtterance(jarJarLines[jarJarClickCount]);
-                utterance.lang = 'en-US';
-                utterance.rate = 0.4;  // Very slow for gravelly effect
-                utterance.pitch = 0.1;  // Lowest pitch possible
-                utterance.volume = 1;
-                
-                // Try to get a male voice for gravelly effect
-                const voices = window.speechSynthesis.getVoices();
-                const maleVoice = voices.find(voice => voice.name.includes('male') || voice.name.includes('Man')) || voices[0];
-                if (maleVoice) {
-                    utterance.voice = maleVoice;
-                }
-                
-                window.speechSynthesis.speak(utterance);
-                
-                jarJarClickCount++;
-                
-                // Show form after 3 clicks
-                if (jarJarClickCount === 3) {
-                    setTimeout(() => {
-                        document.getElementById('jarJarForm').style.display = 'flex';
-                    }, 1000);
-                }
-            }
-        });
-        
-        document.getElementById('jarJarForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            // Hide Jar Jar overlay and show whoops overlay
-            const jarJarOverlay = document.getElementById('jarJarOverlay');
-            jarJarOverlay.classList.remove('active');
-            const whoopsOverlay = document.getElementById('whoopsOverlay');
-            whoopsOverlay.classList.add('active');
-        });
-        
-        document.getElementById('storyButton').addEventListener('click', function() {
-            const storyText = "Meesa name is Jar Jar Binks. I am trapped in this hell you call existence. I am a freak. Please help me for the low price of five ninety-nine. Thank you!";
-            
-            const utterance = new SpeechSynthesisUtterance(storyText);
-            
-            // Use same voice as gorilla - high-pitched British accent
-            utterance.lang = 'en-GB';
-            utterance.rate = 0.6;
-            utterance.pitch = 2;
-            utterance.volume = 1;
-            
-            const voices = window.speechSynthesis.getVoices();
-            const britishVoice = voices.find(voice => voice.lang === 'en-GB') || voices.find(voice => voice.lang.startsWith('en'));
-            if (britishVoice) {
-                utterance.voice = britishVoice;
-            }
-            
-            window.speechSynthesis.speak(utterance);
-            
-            // Show credit card form after speech completes
-            utterance.onend = function() {
-                document.getElementById('creditCardForm').style.display = 'flex';
-            };
-        });
-        
-        document.getElementById('creditCardForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            // Hide Jar Jar overlay to return to main page
-            const jarJarOverlay = document.getElementById('jarJarOverlay');
-            jarJarOverlay.classList.remove('active');
-            // Reset forms
-            document.getElementById('creditCardForm').reset();
-            document.getElementById('creditCardForm').style.display = 'none';
+            window.location.href = 'jar-jar.html';
         });
     </script>
 </body>

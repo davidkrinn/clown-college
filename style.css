@@ -454,6 +454,34 @@ h1 {
     box-shadow: 0 2px 8px rgba(255, 23, 68, 0.3);
 }
 
+/* Back Button */
+.back-button {
+    display: inline-block;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background: #ff1744;
+    border: 3px solid #ffd700;
+    border-radius: 25px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Arial Rounded MT Bold', cursive;
+    text-transform: uppercase;
+    box-shadow: 0 8px 20px rgba(255, 23, 68, 0.4);
+}
+
+.back-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(255, 23, 68, 0.6);
+}
+
+.back-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(255, 23, 68, 0.3);
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     h1 {
